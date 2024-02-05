@@ -1,6 +1,6 @@
 # Venvception
 
-[![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/moradology/venvception/cicd.yml?style=for-the-badge)](https://github.com/moradology/venvception/actions/workflows/cicd.yml)
+[![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/moradology/venvception/cicd.yaml?style=for-the-badge)](https://github.com/moradology/venvception/actions/workflows/cicd.yaml)
 
 Venvception is a Python library designed to simplify the process of creating and using temporary virtual environments when you have good reason to stay in the same process. It provides a context manager that automates the setup of a virtual environment, installs specified packages from a `requirements.txt` file, and ensures that the environment is used for the duration of the context.
 
