@@ -1,0 +1,12 @@
+LICENSE
+README.md
+pyproject.toml
+tests/test_venv.py
+venvception/__init__.py
+venvception/venv.py
+venvception/version.py
+venvception.egg-info/PKG-INFO
+venvception.egg-info/SOURCES.txt
+venvception.egg-info/dependency_links.txt
+venvception.egg-info/requires.txt
+venvception.egg-info/top_level.txt
