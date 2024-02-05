@@ -31,7 +31,7 @@ def venv(requirements_file: Path, env_id: Optional[str] = None):
     env_prefix = env_id or hash_file_id(requirements_file)
     with tempfile.TemporaryDirectory(prefix=env_prefix) as tempdir:
         env_path = Path(tempdir)
-        
+
         builder = EnvBuilder(with_pip=True)
         builder.create(str(env_path))
 
