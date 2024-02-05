@@ -54,7 +54,7 @@ exclude = ["tests*"]
 addopts = "-sv --cov venvception --cov-report xml --cov-report term-missing  --cov-fail-under 80"
 
 [tool.black]
-line-length = 79
+line-length = 100
 target-version = ["py311"]
 
 [tool.isort]
@@ -68,6 +68,7 @@ ignore_missing_imports = true
 exclude = ["tests", ".venv"]
 
 [tool.flake8]
+ignore = ["E501", "W503"]
 select = ["C","E","F","W","B","B950"]
-exclude = ["tests", ".venv"]
-max-line-length = 79
+exclude = ["tests", ".venv", ".tox", ".git", ".mypy_cache"]
+max-line-length = 100

@@ -28,7 +28,7 @@ repos:
         name: Flake8 Formatting
         language: system
         types: [python]
-        entry: flake8 --config=./pyproject.toml
+        entry: flake8 --toml-config=./pyproject.toml
 
       - id: mypy
         name: MyPy Typecheck

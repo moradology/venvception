@@ -1,13 +1,12 @@
 import contextlib
 import hashlib
-import os
 import subprocess
 import sys
 import tempfile
-
 from pathlib import Path
 from typing import Optional
 from venv import EnvBuilder
+
 
 @contextlib.contextmanager
 def venv(requirements_file: Path, env_id: Optional[str] = None):
@@ -45,6 +44,7 @@ def venv(requirements_file: Path, env_id: Optional[str] = None):
         finally:
             sys.path[:] = original_sys_path
 
+
 def hash_file_id(filepath: Path) -> str:
     """
     Computes the SHA-256 hash of requirements file to enable reuse of virtualenv.
@@ -57,11 +57,12 @@ def hash_file_id(filepath: Path) -> str:
     """
     hash_sha256 = hashlib.sha256()
 
-    with open(filepath, 'rb') as f:
+    with open(filepath, "rb") as f:
         while chunk := f.read(8192):
             hash_sha256.update(chunk)
 
     return hash_sha256.hexdigest()
+
 
 def get_pip_path(env_dir: Path) -> Path:
     """
@@ -74,9 +75,10 @@ def get_pip_path(env_dir: Path) -> Path:
         Path: The path to the pip executable.
     """
     if sys.platform == "win32":
-        return env_dir / 'Scripts' / 'pip.exe'
+        return env_dir / "Scripts" / "pip.exe"
     else:
-        return env_dir / 'bin' / 'pip'
+        return env_dir / "bin" / "pip"
+
 
 def pip_install(env_dir: Path, requirements_file: Path) -> None:
     """
@@ -87,7 +89,8 @@ def pip_install(env_dir: Path, requirements_file: Path) -> None:
         requirements_file (Path): Path to the requirements.txt file with package dependencies.
     """
     pip_executable = get_pip_path(env_dir)
-    subprocess.check_call([pip_executable, 'install', '-r', requirements_file])
+    subprocess.check_call([pip_executable, "install", "-r", requirements_file])
+
 
 def activate_virtualenv(env_dir: Path) -> None:
     """
@@ -96,5 +99,10 @@ def activate_virtualenv(env_dir: Path) -> None:
     Args:
         env_dir (Path): The root directory of the virtual environment.
     """
-    site_packages_path = env_dir / 'lib' / f'python{sys.version_info.major}.{sys.version_info.minor}' / 'site-packages'
+    site_packages_path = (
+        env_dir
+        / "lib"
+        / f"python{sys.version_info.major}.{sys.version_info.minor}"
+        / "site-packages"
+    )
     sys.path.insert(0, str(site_packages_path))
