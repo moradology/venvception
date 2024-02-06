@@ -1,5 +1,6 @@
 import contextlib
 import hashlib
+import site
 import subprocess
 import sys
 import tempfile
@@ -37,11 +38,18 @@ def venv(requirements_file: Path, env_id: Optional[str] = None):
         pip_install(env_path, requirements_file)
 
         original_sys_path = list(sys.path)
-        activate_virtualenv(env_path)
+        site_packages_path = (
+            env_path
+            / "lib"
+            / f"python{sys.version_info.major}.{sys.version_info.minor}"
+            / "site-packages"
+        )
+        site.addsitedir(str(site_packages_path))
 
         try:
             yield env_path
         finally:
+            # We update path with the site module but attempt to restore it via sys
             sys.path[:] = original_sys_path
 
 
@@ -90,19 +98,3 @@ def pip_install(env_dir: Path, requirements_file: Path) -> None:
     """
     pip_executable = get_pip_path(env_dir)
     subprocess.check_call([pip_executable, "install", "-r", requirements_file])
-
-
-def activate_virtualenv(env_dir: Path) -> None:
-    """
-    Modifies sys.path to activate a given virtual environment.
-
-    Args:
-        env_dir (Path): The root directory of the virtual environment.
-    """
-    site_packages_path = (
-        env_dir
-        / "lib"
-        / f"python{sys.version_info.major}.{sys.version_info.minor}"
-        / "site-packages"
-    )
-    sys.path.insert(0, str(site_packages_path))
