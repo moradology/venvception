@@ -1,5 +1,6 @@
 import contextlib
 import hashlib
+import os
 import site
 import subprocess
 import sys
@@ -37,8 +38,24 @@ def venv(requirements_file: Path, env_id: Optional[str] = None):
 
         pip_install(env_path, requirements_file)
 
+        bin_dir = 'Scripts' if os.name == 'nt' else 'bin'
+        venv_bin_path = str(env_path / bin_dir)
+
+        original_path = os.environ.get('PATH', '')
+        # Subprocess (forked process) updates
+        os.environ['PATH'] = f"{venv_bin_path}{os.pathsep}{original_path}"
+
+        # Current process updates
+        original_sys_path = list(sys.path)
+        site_packages_path = env_path / "lib" / f"python{sys.version_info.major}.{sys.version_info.minor}" / "site-packages"
+        sys.path.insert(0, str(site_packages_path))
+
         original_sys_path = list(sys.path)
         site_packages_path = (
+            env_path
+            / "Lib"
+            / "site-packages"
+        ) if os.name == "nt" else (
             env_path
             / "lib"
             / f"python{sys.version_info.major}.{sys.version_info.minor}"
@@ -50,6 +67,7 @@ def venv(requirements_file: Path, env_id: Optional[str] = None):
             yield env_path
         finally:
             # We update path with the site module but attempt to restore it via sys
+            os.environ['PATH'] = original_path
             sys.path[:] = original_sys_path
 
 
