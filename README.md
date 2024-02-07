@@ -4,7 +4,7 @@
 
 Venvception is a Python library designed to simplify the process of creating and using temporary virtual environments when you have good reason to stay in the same process. It provides a context manager that automates the setup of a virtual environment, installs specified packages from a `requirements.txt` file, and ensures that the environment is used for the duration of the context.
 
-![venvception in action](venvception.png)
+![venvception in action](https://github.com/moradology/venvception/blob/main/venvception.png?raw=true)
 
 ## Why?
 
