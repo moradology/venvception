@@ -38,15 +38,15 @@ def venv(requirements_file: Path, env_id: Optional[str] = None):
 
         pip_install(env_path, requirements_file)
 
-        bin_dir = 'Scripts' if os.name == 'nt' else 'bin'
+        bin_dir = "Scripts" if os.name == "nt" else "bin"
         venv_bin_path = str(env_path / bin_dir)
 
-        original_path = os.environ.get('PATH', '')
+        original_path = os.environ.get("PATH", "")
         # Subprocess (forked process) updates
-        os.environ['PATH'] = f"{venv_bin_path}{os.pathsep}{original_path}"
+        os.environ["PATH"] = f"{venv_bin_path}{os.pathsep}{original_path}"
 
         original_executable = sys.executable
-        sys.executable = os.path.join(venv_bin_path, 'python')
+        sys.executable = os.path.join(venv_bin_path, "python")
 
         # Current process updates
         original_sys_path = list(sys.path)
@@ -70,7 +70,7 @@ def venv(requirements_file: Path, env_id: Optional[str] = None):
             yield env_path
         finally:
             # We update path with the site module but attempt to restore it via sys
-            os.environ['PATH'] = original_path
+            os.environ["PATH"] = original_path
             sys.path[:] = original_sys_path
             sys.executable = original_executable
 
