@@ -46,7 +46,7 @@ def venv(requirements_file: Path, env_id: Optional[str] = None):
         os.environ['PATH'] = f"{venv_bin_path}{os.pathsep}{original_path}"
 
         original_executable = sys.executable
-        sys.executable = str(venv_bin_path / 'python')
+        sys.executable = os.path.join(venv_bin_path, 'python')
 
         # Current process updates
         original_sys_path = list(sys.path)
