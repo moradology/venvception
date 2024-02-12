@@ -45,6 +45,9 @@ def venv(requirements_file: Path, env_id: Optional[str] = None):
         # Subprocess (forked process) updates
         os.environ['PATH'] = f"{venv_bin_path}{os.pathsep}{original_path}"
 
+        original_executable = sys.executable
+        sys.executable = str(venv_bin_path / 'python')
+
         # Current process updates
         original_sys_path = list(sys.path)
         site_packages_path = env_path / "lib" / f"python{sys.version_info.major}.{sys.version_info.minor}" / "site-packages"
@@ -69,6 +72,7 @@ def venv(requirements_file: Path, env_id: Optional[str] = None):
             # We update path with the site module but attempt to restore it via sys
             os.environ['PATH'] = original_path
             sys.path[:] = original_sys_path
+            sys.executable = original_executable
 
 
 def hash_file_id(filepath: Path) -> str:
