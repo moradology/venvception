@@ -119,4 +119,4 @@ def pip_install(env_dir: Path, requirements_file: Path) -> None:
         requirements_file (Path): Path to the requirements.txt file with package dependencies.
     """
     pip_executable = get_pip_path(env_dir)
-    subprocess.check_call([pip_executable, "install", "-r", requirements_file])
+    subprocess.check_call([pip_executable, "install", "--prefer-binary", "-r", requirements_file])
