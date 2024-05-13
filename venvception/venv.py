@@ -43,7 +43,7 @@ def venv(requirements_file: Path, env_id: Optional[str] = None):
 
         # some packages such as venv-pack needs this os env var set
         original_venv_envvar = os.environ.get("VIRTUAL_ENV", "")
-        os.environ["VIRTUAL_ENV"] = env_path
+        os.environ["VIRTUAL_ENV"] = str(env_path)
 
         original_path = os.environ.get("PATH", "")
         # Subprocess (forked process) updates
