@@ -41,6 +41,10 @@ def venv(requirements_file: Path, env_id: Optional[str] = None):
         bin_dir = "Scripts" if os.name == "nt" else "bin"
         venv_bin_path = str(env_path / bin_dir)
 
+        # some packages such as venv-pack needs this os env var set
+        original_venv_envvar = os.environ.get("VIRTUAL_ENV", "")
+        os.environ["VIRTUAL_ENV"] = env_path
+
         original_path = os.environ.get("PATH", "")
         # Subprocess (forked process) updates
         os.environ["PATH"] = f"{venv_bin_path}{os.pathsep}{original_path}"
@@ -71,6 +75,7 @@ def venv(requirements_file: Path, env_id: Optional[str] = None):
         finally:
             # We update path with the site module but attempt to restore it via sys
             os.environ["PATH"] = original_path
+            os.environ["VIRTUAL_ENV"] = original_venv_envvar
             sys.path[:] = original_sys_path
             sys.executable = original_executable
 
